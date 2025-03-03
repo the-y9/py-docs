@@ -22,5 +22,5 @@ def list_files_and_folders(start_directory, indent=''):
             print(f'{indent}{entry}')
 
 
-directory_to_list = r"C:\Users\dell\AppData\Roaming\NextIAS"
+directory_to_list = r"C:\Users\dell\Desktop\Deep Learning Practices"
 list_files_and_folders(directory_to_list)
