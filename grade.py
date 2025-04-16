@@ -14,42 +14,34 @@ def p(n):
         return 'E', 4
     else:
         return 'U', 0
-#%% LLM
-gaa = 73
-q1 = 35
-q2 = 82
-bonus = 6
-f = 72
-total = 0.1*gaa + 0.4*f + 0.25*q1 + 0.25*q2
-if total > 40:
-    print(f"LLM + bonus {bonus}: {total}- {p(total)}") # C-7
-# print(f"LLM: {total- p(total)}")
-# %%
-#%% SE
-gaa = 84
-q2 = 82
-f = 65
-gp1 = 95
-gp2 = 99
-pp = 8
-cp = 2
-total = 0.05*gaa + 0.4*f + 0.2*q2 + 0.1*gp1 + 0.1*gp2 +0.1*pp + 0.05*cp
-print(f"SE: {total}- {p(total)}") # C-7
-# %% C
-w = [80.00,100.00,86.00,94.00,95.00,95.00,95.00,100.00,100.00,0,0]
-gaa = sum(sorted(w)[-10:])/10
-gaap = 100
-q1 = 72
-oppe1 = 100
-oppe2 = 8
-f = 78
-t = 0.05*gaa + 0.1* gaap + 0.15 * q1 + 0.2*oppe1 + 0.2*oppe2 + 0.3*f
-print(f"C: {t}- {p(t)}") # B-8
-# %% CSD
-w =[100.00,100.00,100.00,40.00,11.00,80.00,100.00,0,0,0]
-gaa = sum(w)/10
+#%% ME
+gaa = 92
+q1 = 60
+q2 = 58
+# bonus = 6
 f = 82
-q1 = 44
-q2 = 70
-t = 0.1*gaa + 0.4*f + 0.2*q1 + 0.3*q2
-print(f"CSD: {t}- {p(t)}") # C-7
+total = 0.15*gaa + max(0.2*q1 + 0.2*q2+ 0.45*f, 0.5*f + 0.25*max(q1,q2))
+if total > 40:
+    print(f"ME: {total}- {p(total)}") # ME: 74.3- ('B', 8)
+
+#%% CF
+gaa = 72
+q1 = 68
+q2 = 40
+f = 67
+total = 0.1*gaa + 0.2*q1 + 0.3*q2 + 0.4*f
+if total > 40:
+    print(f"CF: {total}- {p(total)}") # CF: 59.599999999999994- ('D', 6)
+#%% DLP
+gaa = 63
+q1 = 72
+q2 = 49
+n1 = 90.27
+n2 = 0
+n3 = 80
+q3 = 48
+total = 0.2*gaa + 0.15*q1 + 0.15*q2 + 0.5*q3 + 0.2*max(n1, n3) + 0.15*min(n1,n3) + 0.1*0
+maxi = 0.2 + 0.15 + 0.15 + 0.5 + 0.2 + 0.15 + 0.1
+tf = total / maxi 
+if tf > 40:
+    print(f"DLP: {tf}- {p(tf)}") # DLP: 58.48551724137931- ('D', 6)
