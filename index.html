@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Topic Difficulty Tracker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 0 10px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+    th, td {
+      border: 1px solid #aaa;
+      padding: 8px 12px;
+      text-align: center;
+    }
+    button {
+      font-size: 14px;
+      padding: 4px 8px;
+      cursor: pointer;
+    }
+    textarea {
+      width: 100%;
+      height: 100px;
+      font-size: 14px;
+      padding: 8px;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+      resize: vertical;
+    }
+    .controls {
+      margin-bottom: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .radio-group {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      font-size: 14px;
+    }
+    .radio-group label {
+      cursor: pointer;
+    }
+    .update-btn-container {
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Topic Difficulty Tracker</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Topic</th>
+        <th>Hard</th>
+        <th>Medium</th>
+        <th>Easy</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="topicTableBody"></tbody>
+  </table>
+
+  <div class="controls">
+    <textarea id="topicInput" placeholder="Enter topics, one per line"></textarea>
+    
+    <div class="radio-group" id="difficultyRadios">
+      <label><input type="radio" name="difficulty" value="hard" checked /> Hard</label>
+      <label><input type="radio" name="difficulty" value="medium" /> Medium</label>
+      <label><input type="radio" name="difficulty" value="easy" /> Easy</label>
+    </div>
+    
+    <div class="update-btn-container">
+      <button id="updateBtn">Update Topics</button>
+    </div>
+  </div>
+
+  <script>
+    const topics = [
+      { name: "Two Pointers", hard: 1, medium: 0, easy: 0 },
+      { name: "String", hard: 1, medium: 0, easy: 0 },
+      { name: "String Matching", hard: 1, medium: 0, easy: 0 },
+    ];
+
+    const tbody = document.getElementById("topicTableBody");
+    const topicInput = document.getElementById("topicInput");
+    const updateBtn = document.getElementById("updateBtn");
+
+    function getSelectedDifficulty() {
+      const radios = document.querySelectorAll('input[name="difficulty"]');
+      for (const radio of radios) {
+        if (radio.checked) return radio.value;
+      }
+      return null; // fallback
+    }
+
+    function renderTable() {
+      tbody.innerHTML = "";
+      topics.forEach((topic, index) => {
+        const tr = document.createElement("tr");
+
+        // Topic name
+        const tdName = document.createElement("td");
+        tdName.textContent = topic.name;
+        tr.appendChild(tdName);
+
+        // Hard count
+        const tdHard = document.createElement("td");
+        tdHard.textContent = topic.hard;
+        tdHard.id = `hard-${index}`;
+        tr.appendChild(tdHard);
+
+        // Medium count
+        const tdMedium = document.createElement("td");
+        tdMedium.textContent = topic.medium;
+        tdMedium.id = `medium-${index}`;
+        tr.appendChild(tdMedium);
+
+        // Easy count
+        const tdEasy = document.createElement("td");
+        tdEasy.textContent = topic.easy;
+        tdEasy.id = `easy-${index}`;
+        tr.appendChild(tdEasy);
+
+        // Action buttons per difficulty
+        const tdAction = document.createElement("td");
+        ["hard", "medium", "easy"].forEach(level => {
+          const btn = document.createElement("button");
+          btn.textContent = "+ " + level.charAt(0).toUpperCase();
+          btn.title = `Increment ${level} count`;
+          btn.style.marginRight = "5px";
+          btn.addEventListener("click", () => {
+            topic[level]++;
+            document.getElementById(`${level}-${index}`).textContent = topic[level];
+          });
+          tdAction.appendChild(btn);
+        });
+        tr.appendChild(tdAction);
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    updateBtn.addEventListener("click", () => {
+      const inputText = topicInput.value.trim();
+      if (!inputText) {
+        alert("Please enter at least one topic.");
+        return;
+      }
+      const difficulty = getSelectedDifficulty();
+      if (!difficulty) {
+        alert("Please select a difficulty.");
+        return;
+      }
+
+      // Split input by lines, trim each, ignore empty lines
+      const lines = inputText.split("\n").map(line => line.trim()).filter(line => line.length > 0);
+
+      lines.forEach(line => {
+        let existing = topics.find(t => t.name.toLowerCase() === line.toLowerCase());
+        if (existing) {
+          existing[difficulty]++;
+        } else {
+          const newTopic = { name: line, hard: 0, medium: 0, easy: 0 };
+          newTopic[difficulty] = 1;
+          topics.push(newTopic);
+        }
+      });
+
+      topicInput.value = "";
+      renderTable();
+    });
+
+    // Initial render
+    renderTable();
+  </script>
+
+</body>
+</html>

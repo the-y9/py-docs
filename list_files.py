@@ -1,6 +1,7 @@
 import os
 
 def list_files_and_folders(start_directory, indent='', ignore_list=None):
+    print(f"{os.path.basename(start_directory)}/")
     if ignore_list is None:
         ignore_list = []
 

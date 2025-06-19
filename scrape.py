@@ -25,3 +25,5 @@ for idx, row in enumerate(rows[1:]):
 df = pd.DataFrame.from_dict(data, orient='index', columns=headers)
 df
 # %%
+df.iloc[164:165, :]
+# %%
